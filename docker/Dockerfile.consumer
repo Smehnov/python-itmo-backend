@@ -1,0 +1,32 @@
+FROM python:3.9-slim
+
+WORKDIR /app
+
+# Install netcat and curl for health checks
+RUN apt-get update && \
+    apt-get install -y netcat-traditional curl && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install Poetry
+RUN pip install poetry
+
+# Copy project files
+COPY pyproject.toml poetry.lock ./
+COPY src ./src
+COPY consumer ./consumer
+COPY scripts/setup_kafka.py ./scripts/
+
+# Verify src directory content
+RUN ls -la src/ && ls -la src/app/
+
+# Configure poetry and install dependencies
+RUN poetry config virtualenvs.create false \
+    && poetry install --only main \
+    && pip install prometheus-client
+
+# Add initialization script
+COPY docker/init-consumer.sh /init-consumer.sh
+RUN chmod +x /init-consumer.sh
+
+# Run initialization script and consumer
+CMD ["/init-consumer.sh"] 

@@ -1,0 +1,34 @@
+my_project/
+├── src/
+│   └── app/
+│       ├── __init__.py
+│       ├── api/
+│       │   ├── __init__.py
+│       │   └── routes.py
+│       ├── core/
+│       │   ├── __init__.py
+│       │   ├── config.py
+│       │   └── database.py
+│       ├── models/
+│       │   ├── __init__.py
+│       │   └── base.py
+│       └── services/
+│           ├── __init__.py
+│           └── kafka_producer.py
+├── consumer/
+│   ├── __init__.py
+│   ├── kafka_consumer.py
+│   └── tasks.py
+├── tests/
+│   ├── __init__.py
+│   ├── conftest.py
+│   ├── test_api/
+│   ├── test_consumer/
+│   └── test_services/
+├── docker/
+│   ├── Dockerfile.api
+│   ├── Dockerfile.consumer
+│   └── docker-compose.yml
+├── pyproject.toml
+├── requirements.txt
+└── README.md 

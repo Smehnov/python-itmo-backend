@@ -1,0 +1,196 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "title": "API Request Rate",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "targets": [
+        {
+          "expr": "rate(api_requests_total[5m])",
+          "legendFormat": "{{method}} {{endpoint}}"
+        }
+      ]
+    },
+    {
+      "title": "Request Success Rate",
+      "type": "gauge",
+      "datasource": "Prometheus",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "options": {
+        "minValue": 0,
+        "maxValue": 100,
+        "orientation": "auto",
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "thresholds": [
+          { "color": "red", "value": null },
+          { "color": "yellow", "value": 90 },
+          { "color": "green", "value": 95 }
+        ],
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "valueOptions": {
+          "suffix": "%",
+          "decimals": 1
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum(rate(api_requests_total{status=\"200\"}[5m])) / sum(rate(api_requests_total[5m])) * 100"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "yellow", "value": 90 },
+              { "color": "green", "value": 95 }
+            ]
+          },
+          "unit": "percent"
+        }
+      }
+    },
+    {
+      "title": "Document Size Distribution",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "targets": [
+        {
+          "expr": "rate(document_size_bytes_sum[5m]) / rate(document_size_bytes_count[5m])",
+          "legendFormat": "Average Size"
+        }
+      ]
+    },
+    {
+      "title": "Container Memory Usage",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "targets": [
+        {
+          "expr": "container_memory_usage_bytes{container_label_com_docker_compose_service=~\"api|consumer\"}/1024/1024",
+          "legendFormat": "{{container_label_com_docker_compose_service}} Memory (MB)"
+        }
+      ]
+    },
+    {
+      "title": "Container CPU Usage",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "targets": [
+        {
+          "expr": "rate(container_cpu_usage_seconds_total{container_label_com_docker_compose_service=~\"api|consumer\"}[5m]) * 100",
+          "legendFormat": "{{container_label_com_docker_compose_service}} CPU %"
+        }
+      ]
+    },
+    {
+      "title": "Network I/O",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 24
+      },
+      "targets": [
+        {
+          "expr": "rate(container_network_receive_bytes_total{container_label_com_docker_compose_service=~\"api|consumer\"}[5m])",
+          "legendFormat": "{{container_label_com_docker_compose_service}} Receive"
+        },
+        {
+          "expr": "rate(container_network_transmit_bytes_total{container_label_com_docker_compose_service=~\"api|consumer\"}[5m])",
+          "legendFormat": "{{container_label_com_docker_compose_service}} Transmit"
+        }
+      ]
+    },
+    {
+      "title": "Disk I/O",
+      "type": "timeseries",
+      "datasource": "Prometheus",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 24
+      },
+      "targets": [
+        {
+          "expr": "rate(container_fs_reads_bytes_total{container_label_com_docker_compose_service=~\"api|consumer\"}[5m])",
+          "legendFormat": "{{container_label_com_docker_compose_service}} Reads"
+        },
+        {
+          "expr": "rate(container_fs_writes_bytes_total{container_label_com_docker_compose_service=~\"api|consumer\"}[5m])",
+          "legendFormat": "{{container_label_com_docker_compose_service}} Writes"
+        }
+      ]
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Document Processing Dashboard",
+  "uid": "document_processing",
+  "version": 1,
+  "weekStart": ""
+} 
