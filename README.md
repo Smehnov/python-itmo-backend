@@ -12,6 +12,8 @@ http://localhost:3000/
 ``` 
 ![Grafana example](https://i.ibb.co/Y7267wW4/photo-2025-02-20-22-42-57.jpg)  
   
+## Tests  
+Example of CI tests: https://github.com/Smehnov/python-itmo-backend/actions/runs/13443429714/job/37563100845  
 
 ## Services  
 - main server  
